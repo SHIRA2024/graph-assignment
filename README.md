@@ -59,4 +59,5 @@ make clean
 - Only `test_queue.cpp` contains the line:  
   `#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN`  
   to avoid multiple definitions of `main`.
+- `prim` and `kruskal` will throw a `std::runtime_error` if the input graph is not connected.
 

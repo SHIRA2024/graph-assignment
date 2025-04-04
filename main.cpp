@@ -46,15 +46,26 @@ int main() {
 
     // Run Prim's algorithm to find the Minimum Spanning Tree (MST) and print it
     // Note: each undirected edge appears twice in the output (once for each direction)
-    Graph primTree = Algorithms::prim(g);
-    cout << "\nMinimum Spanning Tree using Prim:\n";
-    primTree.print_graph(); 
-
-
+    //if the graph is not connected  the function catches exception and prints appropriate error message
+        try {
+            Graph primTree = Algorithms::prim(g);
+            cout << "\nMinimum Spanning Tree using Prim:\n";
+            primTree.print_graph(); 
+        } catch (const std::runtime_error& e) {
+            cout << "\nPrim Error: " << e.what() << endl;
+        }
+    
     //  Run Kruskal's algorithm to find the MST and print it
     // Note: each undirected edge appears twice in the output (once for each direction)
-    Graph kruskalTree = Algorithms::kruskal(g);
-    cout << "\nMinimum Spanning Tree using Kruskal:\n";
-    kruskalTree.print_graph(); 
-    return 0;
+    //if the graph is not connected  the function catches exception and prints appropriate error message
+        try {
+            Graph kruskalTree = Algorithms::kruskal(g);
+            cout << "\nMinimum Spanning Tree using Kruskal:\n";
+            kruskalTree.print_graph(); 
+        } catch (const std::runtime_error& e) {
+            cout << "\nKruskal Error: " << e.what() << endl;
+        }
+
+        return 0;
+    
 }

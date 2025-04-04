@@ -173,16 +173,14 @@ TEST_CASE("Prim on graph with one node") {
 TEST_CASE("Prim on disconnected graph") {
     Graph g(4);
     g.addEdge(0, 1, 1);
-    g.addEdge(2, 3, 2); 
+    g.addEdge(2, 3, 2); // two components
 
-    Graph mst = Algorithms::prim(g);
+    
+    CHECK_THROWS_AS(Algorithms::prim(g), std::runtime_error);
 
-    // the spanning tree will only include the component that contains vertex 0 (according to the algorithm)
-    CHECK(mst.get_num_vertices() == 4);
-    CHECK(mst.get_neighbor_count(0) == 1);
-    CHECK(mst.get_neighbor_count(2) == 0); 
-    CHECK(mst.get_neighbor_count(3) == 0); 
+
 }
+
 
 TEST_CASE("Kruskal on connected graph") {
     Graph g(4);
@@ -204,18 +202,13 @@ TEST_CASE("Kruskal on connected graph") {
 TEST_CASE("Kruskal on disconnected graph") {
     Graph g(5);
     g.addEdge(0, 1, 1);
-    g.addEdge(2, 3, 2);
+    g.addEdge(2, 3, 2); // two components
 
-    Graph mst = Algorithms::kruskal(g);
 
-    // Kruskal will only create trees in the connected components
-    CHECK(mst.get_num_vertices() == 5);
-    int total_edges = 0;
-    for (int i = 0; i < 5; ++i) {
-        total_edges += mst.get_neighbor_count(i);
-    }
-    CHECK(total_edges / 2 == 2); // each component had one edge
+    CHECK_THROWS_AS(Algorithms::kruskal(g), std::runtime_error);
+
 }
+
 
 TEST_CASE("Kruskal on graph that is already a tree") {
     Graph g(3);

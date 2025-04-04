@@ -13,6 +13,8 @@ public:
     static Graph dfs(const Graph& g, int start);
     static void dfs_visit(const Graph& g, int u, int* color, int* parent, Graph& tree);
     static Graph dijkstra(const Graph& g, int start);
+    static bool isConnected(const Graph& g);
+    static void dfs_helper(const Graph& g, int u, bool* visited);
     static Graph prim(const Graph& g);
     static Graph kruskal(const Graph& g);
 };

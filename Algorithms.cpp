@@ -228,15 +228,64 @@ namespace graph {
 
   } 
 
-     
+ 
+  /**
+ * Checks if the graph is connected using DFS.
+ * @param g The input graph.
+ * @return True if the graph is connected, false otherwise.
+ */
+bool Algorithms::isConnected(const Graph& g) {
+    int n = g.get_num_vertices();
+    bool* visited = new bool[n];
+    for (int i = 0; i < n; ++i) {
+        visited[i] = false;
+    }
+
+    // Start DFS from vertex 0
+    dfs_helper(g, 0, visited);
+
+    // Check if all vertices were visited
+    for (int i = 0; i < n; ++i) {
+        if (!visited[i]) {
+            delete[] visited;
+            return false;
+        }
+    }
+
+    delete[] visited;
+    return true;
+}
+
+/**
+ * DFS helper function to mark visited vertices.
+ * @param g The input graph.
+ * @param u Current vertex.
+ * @param visited Array of visited flags.
+ */
+void Algorithms::dfs_helper(const Graph& g, int u, bool* visited) {
+    visited[u] = true;
+    int num = g.get_neighbor_count(u);
+    for (int i = 0; i < num; ++i) {
+        int v = g.get_neighbor(u, i);
+        if (!visited[v]) {
+            dfs_helper(g, v, visited);
+        }
+    }
+}
+
 
   /**
      * Prim's algorithm for minimum spanning tree.
      * @param g The input graph.
      * @return The MST built from the graph.
+     * @throws std::runtime_error if the input graph is not connected.
      */ 
 
      Graph Algorithms::prim(const Graph& g) {
+        if (!isConnected(g)) {
+            throw std::runtime_error("Prim's algorithm requires the graph to be connected.");
+        }
+        
         int n = g.get_num_vertices();
     
         int* key = new int[n];            // Lightest edge weight to reach each vertex
@@ -337,9 +386,14 @@ bool unite(int u, int v, int* parent_arr) {
      * Kruskal's algorithm for minimum spanning tree.
      * @param g The input graph.
      * @return The MST built from the graph.
+     *  @throws std::runtime_error if the input graph is not connected.
      */
     
     Graph Algorithms::kruskal(const Graph& g) {
+        if (!isConnected(g)) {
+            throw std::runtime_error("Kruskal's algorithm requires the graph to be connected.");
+        }
+        
         int n = g.get_num_vertices();
         Graph mst(n);  
     
