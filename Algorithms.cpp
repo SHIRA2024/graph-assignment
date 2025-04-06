@@ -53,10 +53,8 @@ namespace graph {
                     color[v] = 1;              
                     distance[v] = distance[u] + 1; 
                     parent[v] = u;              
-                    q.enqueue(v);              
-    
-                    
-                    tree.addDirectedEdge(u, v); // this edge shows how we reached v
+                    q.enqueue(v);                               
+                    tree.addDirectedEdge(u, v, g.get_weight(u, v)); // this edge shows how we reached v
                 }
             }
     
@@ -69,6 +67,8 @@ namespace graph {
     
         return tree;  
     }
+
+    
     static int time_dfs = 0; 
     
      /**
@@ -125,7 +125,7 @@ namespace graph {
     
             if (color[v] == 0) {           
                 parent[v] = u;             
-                tree.addDirectedEdge(u, v);         // Add the tree edge (discovery edge) to the DFS tree
+                tree.addDirectedEdge(u, v, g.get_weight(u, v));         // Add the tree edge (discovery edge) to the DFS tree
                 dfs_visit(g, v, color, parent, tree); 
             }
         }
